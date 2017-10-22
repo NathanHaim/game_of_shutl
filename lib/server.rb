@@ -24,15 +24,22 @@ module VehiculeManagement
 
    def self.find_vehicule_from_products(products)
       vehicule = MIN_VEHICULE
+      prod = { 'weight' => 0 , 'width' => 0 , 'height' => 0 , 'length'=> 0}
       products.each do |product|
-        while( (VEHICULES_VOLUMES[vehicule]['weight'] != -1) && ( 
-                (product['weight'] > VEHICULES_VOLUMES[vehicule]['weight'] )||
-                (product['width'] > VEHICULES_VOLUMES[vehicule]['width'])||
-                (product['height'] > VEHICULES_VOLUMES[vehicule]['height'])||
-                (product['length'] > VEHICULES_VOLUMES[vehicule]['length'])))
+        prod['weight'] += product['weight']
+        prod['width'] += product['width']
+        prod['height'] += product['height']
+        prod['length'] += product['length']
+      end
+
+      while( (VEHICULES_VOLUMES[vehicule]['weight'] != -1) && ( 
+                (prod['weight'] > VEHICULES_VOLUMES[vehicule]['weight'] )||
+                (prod['width'] > VEHICULES_VOLUMES[vehicule]['width'])||
+                (prod['height'] > VEHICULES_VOLUMES[vehicule]['height'])||
+                (prod['length'] > VEHICULES_VOLUMES[vehicule]['length'])))
           vehicule = VEHICULES_VOLUMES[vehicule]['next']
         end
-      end
+
       return vehicule
    end
 
